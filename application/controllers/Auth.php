@@ -37,13 +37,17 @@
                         ];
                         $this->session->set_userdata($data);
                         if($user['role_id'] == 1){
+                            // redirect('admin');
+                        $this->session->set_flashdata('login_success', 'ok');
                             redirect('admin/index');
-                            $this->session->set_flashdata('login_success', '<div class="alert alert-success" role="alert">Welcome Admin! </div>');
                         }else{
+                            $this->session->set_flashdata('login_success', 'ok');
                             redirect('user/index');
+                            // redirect('user/index');
+                            // $this->session->set_flashdata('login_error', 'Wrong password!');  sdcvasd    
                         }
                     }else{
-                        $this->session->set_flashdata('email_message', '<div class="alert alert-danger" role="alert">Wrong password! </div>');
+                        $this->session->set_flashdata('login_error', 'Wrong password!');
                         redirect('auth/login');
                     }
                 }else{
