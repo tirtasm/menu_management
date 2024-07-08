@@ -5,7 +5,7 @@
         public function __construct() {
             parent::__construct();
             $this->load->library('form_validation');
-            // $this->load->model('Auth_model');
+            // $this->load->model('Menu_model');
         }
         public function index() {
             
@@ -27,7 +27,19 @@
             // echo $this->input->post('menu');
             
             $this->db->insert('user_menu', ['menu' => $this->input->post('menu')]);
-            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">New menu added!</div>');
+            $this->session->set_flashdata('menu_flash', ' added!');
             redirect('menu');
+        }
+        public function delete($id){
+            $this->db->delete('user_menu', ['id_menu' => $id]);
+            $this->session->set_flashdata('menu_flash', ' deleted!');
+            redirect('menu');
+        }
+        public function edit($id){
+            $data['menu'] = $this->db->get_where('user_menu', ['id_menu' => $id])->row_array();
+            $this->load->view('menu/edit', $data);
+
+
+
         }
     }
