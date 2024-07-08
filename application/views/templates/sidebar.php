@@ -11,15 +11,8 @@
 
     <!-- Divider -->
     <hr class="sidebar-divider">
-
-    <!-- Nav Item - Dashboard -->
-    <li class="nav-item">
-        <a class="nav-link" href="index.html">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Dashboard</span></a>
-    </li>
-
-
+    
+    
     <!-- Query Menu -->
     <?php
     $role_id = $this->session->userdata('role_id');
@@ -49,15 +42,19 @@
 
         </div>
         <?php foreach ($subMenu as $sm): ?>
-            <li class="nav-item ">
-                <a class="nav-link" href="<?= base_url($sm['url']); ?>">
-                    <i class="<?= $sm['icon'] ?>"></i>
-                    <span><?= $sm['title'] ?></span></a>
-            </li>
-        <?php endforeach; ?>
+            <?php if ($judul == $sm['title']): ?>
+                <li class="nav-item active">
+                <?php else: ?>
+                <li class="nav-item">
+                <?php endif; ?>
+                <a class="nav-link pb-0" href="<?= base_url($sm['url']); ?>">
+                    <i class="<?= $sm['icon']; ?>"></i>
+                    <span><?= $sm['title']; ?></span></a>
+                </li>
+                <?php endforeach; ?>
+                <hr class="sidebar-divider d-none d-md-block mt-2">
         <!-- Divider -->
-        <hr class="sidebar-divider d-none d-md-block">
-
+        
     <?php endforeach; ?>
     <!-- Divider -->
 
