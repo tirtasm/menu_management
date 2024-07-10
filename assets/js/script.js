@@ -1,20 +1,18 @@
-
-
 console.log("ber");
 
-const menuFlash = $('.menu-flash').data('menuflash')
-if(menuFlash){
-  Swal.fire({
-    title: "Menu",
-    text: "Successfully" + menuFlash,
-    icon: "success",
-	timer: 2500
-	
-  })
+const menuFlash = $(".menu-flash").data("menuflash");
+if (menuFlash) {
+	Swal.fire({
+		title: "Menu",
+		text: "Successfully" + menuFlash,
+		icon: "success",
+		timer: 2500,
+	});
 }
-$('.delete').on('click', function(e){
+
+$(".delete").on("click", function (e) {
 	e.preventDefault();
-	const href = $(this).attr('href');
+	const href = $(this).attr("href");
 
 	Swal.fire({
 		title: "Are you sure?",
@@ -23,25 +21,23 @@ $('.delete').on('click', function(e){
 		showCancelButton: true,
 		confirmButtonColor: "#3085d6",
 		cancelButtonColor: "#d33",
-		confirmButtonText: "Yes, delete it!"
+		confirmButtonText: "Yes, delete it!",
 	}).then((result) => {
-		if(result.value) {
+		if (result.value) {
 			document.location.href = href;
 		}
 	});
 });
 
-
 $(document).ready(function () {
 	const flashdataElement = document.getElementById("flashdata");
 	const loginSuccess = flashdataElement.getAttribute("data-login-success");
 	const loginError = flashdataElement.getAttribute("data-login-error");
-	
+
 	if (loginSuccess) {
 		const Toast = Swal.mixin({
 			toast: true,
 			position: "top-end",
-
 			showConfirmButton: false,
 			timer: 2000,
 			timerProgressBar: false,
@@ -64,4 +60,58 @@ $(document).ready(function () {
 			icon: "error",
 		});
 	}
+});
+
+addMenu = () => {
+	var menuInput = document.getElementById("menu");
+	var menuError = document.getElementById("menu-error");
+
+	if (menuInput.value.trim() === "") {
+		menuError.textContent = "Menu name is required.";
+	} else {
+		menuError.textContent = ""; // Clear the error message
+		document.getElementById("addMenuForm").submit();
+	}
+};
+editMenu = () => {
+	var menuInput = document.getElementById("menu");
+	var menuError = document.getElementById("menu-error");
+
+	if (menuInput.value.trim() === "") {
+		menuError.textContent = "Menu name is required.";
+	} else {
+		menuError.textContent = ""; // Clear the error message
+
+		$(".modal-body form").attr("action", "http://localhost/MENCOBA/menu/edit/");
+
+		
+	}
+};
+
+// toogleMenu = (button) => {
+// 	var add = document.getElementById("addButton");
+// 	var edit = document.getElementById("editButton");
+
+// 	if (button === "add") {
+// 		add.hidden = false;
+// 		edit.hidden = true;
+// 	} else {
+// 		add.hidden = true;
+// 		edit.hidden = false;
+		
+// 	}
+// };
+
+$(function () {
+	$('.tombolTambah').on('click', function() {
+        $('#formModalLabel').html('Tambah Data Mahasiswa');
+        $('.modal-footer button[type=submit]').html('Add');
+
+
+    });
+	$(".tampilModalEdit").on("click", function () {
+		$("#formModalLabel").html("Edit Menu");
+		$('.modal-footer button[type=submit]').html('Edit');
+
+	});
 });

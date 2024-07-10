@@ -18,11 +18,11 @@
                 $this->load->view('templates/auth_footer');
             }
             else{
+                // echo base_url('auth/registration');
                 $this->_login();
             }
         }
         public function _login(){
-            
             $email = $this->input->post('email');
             $password = $this->input->post('password');
 
@@ -60,6 +60,7 @@
                 $this->session->set_flashdata('email_message', '<div class="alert alert-danger" role="alert">This email is not registered! </div>');
                 redirect('auth/login');
             }
+            
             
         }
 

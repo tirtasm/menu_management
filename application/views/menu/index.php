@@ -8,12 +8,12 @@
 
     <div class="menu-flash" data-menuflash="<?= $this->session->flashdata('menu_flash'); ?>"></div>
 
-    
-    
-    <div class="btn btn-primary mb-3" data-toggle="modal" data-target="#menuModal">Add New Menu</div>
+
+    <div class="btn btn-primary mb-3 tombolTambah" data-toggle="modal" data-target="#formModal"
+        >Add New Menu</div>
     <div class="row">
         <div class="col-lg-6">
-            <table class="table table-hover">
+            <table class="table table-hover mx-3">
                 <thead>
                     <tr>
                         <th scope="col">#</th>
@@ -28,8 +28,11 @@
                             <th scope="row"><?= $i ?></th>
                             <th scope="2"><?= $m['menu'] ?></th>
                             <td>
-                                <a href="" class="badge badge-success">Edit</a>
-                                <a href="<?=base_url('menu/delete/'). $m['id_menu']?>" class="badge badge-danger delete">Delete</a>
+                                <a href="<?= base_url('menu/edit/') . $m['id_menu'] ?>"
+                                    class="badge badge-success tampilModalEdit" data-toggle="modal" data-target="#formModal"
+                                    data-id="<?= $m['id_menu'] ?>">Edit</a>
+                                <a href="<?= base_url('menu/delete/') . $m['id_menu'] ?>"
+                                    class="badge badge-danger delete">Delete</a>
                             </td>
                         </tr>
                         <?php $i++ ?>
@@ -38,91 +41,47 @@
             </table>
         </div>
     </div>
-</div>
-<!-- /.container-fluid -->
 
+</div>
 
 <!-- Modal -->
-<div class="modal fade" id="menuModal" tabindex="-1" role="dialog" aria-labelledby="menuModal-Label"
-    aria-hidden="true">
+
+<!-- Modal -->
+<div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="judulModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="menuModal-Label">Add New Menu</h5>
+                <h5 class="modal-title" id="formModalLabel">Add New Menu</h5>
 
                 <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-            <form id="addMenuForm" action="<?= base_url('menu/add')?>" method="post">
-                <div class="modal-body">
+            <div class="modal-body">
+                <form action="<?= base_url('menu/add') ?>" method="post">
                     <div class="row justify-content-center">
 
                         <div class="col-lg-10 align-items-center ">
                             <div class="mb-3">
+                                <input type="hidden" id="id_menu" name="id_menu">
                                 <label for="menu" class="form-label">Menu name</label>
-                                <input type="text" class="form-control" id="menu" name="menu" >
+                                <input type="text" class="form-control" id="menu" name="menu" value="">
                                 <small class="form-text text-danger" id="menu-error"></small>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" onclick="addMenu()">Add</button>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Add</button>
+                <!-- <button type="button" id="editButton" class="btn btn-primary edit-button" data-id="" onclick="editMenu(this)" hidden>Edit</button> -->
+            </div>
             </form>
         </div>
     </div>
 </div>
 
-<?php foreach ($menu as $m): ?>
-    <div class="modal fade" id="editMenuModal<?= $m['id_menu'] ?>" tabindex="-1" role="dialog" aria-labelledby="editMenuModal-Label<?= $m['id_menu'] ?>"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editMenuModal-Label<?= $m['id_menu'] ?>">Edit Menu</h5>
-
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <form id="editMenuForm<?= $m['id_menu'] ?>" action="<?= base_url('menu/edit/') . $m['id_menu'] ?>" method="post">
-                    <div class="modal-body">
-                        <div class="row justify-content-center">
-
-                            <div class="col-lg-10 align-items-center ">
-                                <div class="mb-3">
-                                    <label for="menu" class="form-label">Menu name</label>
-                                    <input type="text" class="form-control" id="menu" name="menu" value="<?= $m['menu'] ?>">
-                                    <small class="form-text text-danger" id="menu-error"></small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-<?php endforeach; ?>
-
 <script>
-    function addMenu() {
-        var menuInput = document.getElementById("menu");
-        var menuError = document.getElementById("menu-error");
 
-        if (menuInput.value.trim() === "") {
-            menuError.textContent = "Menu name is required.";
-        } else {
-            menuError.textContent = ""; // Clear the error message
-            document.getElementById("addMenuForm").submit();
-        }
-    }
 
 </script>
-
