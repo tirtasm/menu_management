@@ -65,7 +65,7 @@
                             <div class="mb-3">
                                 <input type="hidden" id="id_menu" name="id_menu">
                                 <label for="menu" class="form-label">Menu name</label>
-                                <input type="text" class="form-control" id="menu" name="menu" value="">
+                                <input type="text" class="form-control" id="menu" name="menu" required>
                                 <small class="form-text text-danger" id="menu-error"></small>
                             </div>
                         </div>
@@ -73,7 +73,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Add</button>
+                <button type="submit" class="btn btn-primary" >Add</button>
                 <!-- <button type="button" id="editButton" class="btn btn-primary edit-button" data-id="" onclick="editMenu(this)" hidden>Edit</button> -->
             </div>
             </form>

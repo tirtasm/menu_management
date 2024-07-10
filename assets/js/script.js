@@ -62,32 +62,17 @@ $(document).ready(function () {
 	}
 });
 
-addMenu = () => {
-	var menuInput = document.getElementById("menu");
-	var menuError = document.getElementById("menu-error");
+// addMenu = () => {
+// 	var menuInput = document.getElementById("menu");
+// 	var menuError = document.getElementById("menu-error");
 
-	if (menuInput.value.trim() === "") {
-		menuError.textContent = "Menu name is required.";
-	} else {
-		menuError.textContent = ""; // Clear the error message
-		document.getElementById("addMenuForm").submit();
-	}
-};
-editMenu = () => {
-	var menuInput = document.getElementById("menu");
-	var menuError = document.getElementById("menu-error");
+// 	if (menuInput.value.trim() === "") {
+// 		menuError.textContent = "Menu name is required.";
+// 	} else {
+// 		menuError.textContent = ""; // Clear the error message
 
-	if (menuInput.value.trim() === "") {
-		menuError.textContent = "Menu name is required.";
-	} else {
-		menuError.textContent = ""; // Clear the error message
-
-		$(".modal-body form").attr("action", "http://localhost/MENCOBA/menu/edit/");
-
-		
-	}
-};
-
+// 	}
+// };
 // toogleMenu = (button) => {
 // 	var add = document.getElementById("addButton");
 // 	var edit = document.getElementById("editButton");
@@ -98,20 +83,37 @@ editMenu = () => {
 // 	} else {
 // 		add.hidden = true;
 // 		edit.hidden = false;
-		
+
 // 	}
 // };
 
 $(function () {
-	$('.tombolTambah').on('click', function() {
-        $('#formModalLabel').html('Tambah Data Mahasiswa');
-        $('.modal-footer button[type=submit]').html('Add');
-
-
-    });
+	$(".tombolTambah").on("click", function () {
+		$("#formModalLabel").html("Tambah Data Mahasiswa");
+		$(".modal-footer button[type=submit]").html("Add");
+	});
 	$(".tampilModalEdit").on("click", function () {
 		$("#formModalLabel").html("Edit Menu");
-		$('.modal-footer button[type=submit]').html('Edit');
+		$(".modal-footer button[type=submit]").html("Edit");
+		$(".modal-body form").attr("action", "http://localhost/MENCOBA/menu/edit/");
 
+		const id = $(this).data("id"); 
+		// console.log(id);
+
+		$.ajax({
+			url: "http://localhost/MENCOBA/menu/getEdit/",
+			data: { id_menu: id }, 
+			method: "post",
+			dataType: "json",
+			success: function (data) {
+				// console.log(data); 
+				if (data) {
+					$("#id_menu").val(data.id_menu); // Sesuaikan dengan id_menu
+					$("#menu").val(data.menu);
+				} else {
+					console.error("Data is null or undefined");
+				}
+			},
+		});
 	});
 });
