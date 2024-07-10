@@ -16,9 +16,17 @@ class Menu_model extends CI_Model
 
     public function getMenuById($id)
     {
-        return $this->db->get_where('user_menu', ['id_menu' => $id])->row_array();
+        return$this->db->get_where('user_menu', ['id_menu' => $id])->row_array();
     }
-
+    public function getEdit(){  
+        echo json_encode($this->Menu_model->getMenuById($this->input->post('id_menu')));
+    }
+public function addMenu(){
+        $data = [
+            'menu' => $this->input->post('menu')
+        ];
+        $this->db->insert('user_menu', $data);    
+}
     public function updateMenu()
     {
         $data = [
@@ -33,17 +41,13 @@ class Menu_model extends CI_Model
         return $this->db->get_where('user_sub_menu', ['id' => $id])->row_array();
     }
 
-    public function updateSubMenu()
-    {
-        $data = [
-            'title' => $this->input->post('title'),
-            'menu_id' => $this->input->post('menu_id'),
-            'url' => $this->input->post('url'),
-            'icon' => $this->input->post('icon'),
-            'is_active' => $this->input->post('is_active')
-        ];
-        $this->db->where('id', $this->input->post('id'));
-        $this->db->update('user_sub_menu', $data);
+    public function getAllSubmenu(){
+        $this->db->select('*');
+        $this->db->from('user_sub_menu');
+        $this->db->join('user_menu', 'user_menu.id_menu = user_sub_menu.menu_id');
+        return $this->db->get()->result_array();
+
     }
 
+    
 }

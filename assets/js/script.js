@@ -1,5 +1,7 @@
 console.log("ber");
 
+const menuAdded = $(".menu-flash").data("menuadded");
+const menuFailed = $(".menu-flash").data("menufailed");
 const menuFlash = $(".menu-flash").data("menuflash");
 if (menuFlash) {
 	Swal.fire({
@@ -8,6 +10,23 @@ if (menuFlash) {
 		icon: "success",
 		timer: 2500,
 	});
+}
+
+if (menuAdded) {
+	Swal.fire({
+		title: "Menu",
+		text: "Successfully" + menuAdded,
+		icon: "success",
+		timer: 2500,
+	});
+}else if(menuFailed){
+	Swal.fire({
+		title: "Menu",
+		text: "Menu" + menuFailed,
+		icon: "error",
+		timer: 2500,
+	});
+
 }
 
 $(".delete").on("click", function (e) {

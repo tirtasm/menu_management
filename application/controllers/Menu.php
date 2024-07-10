@@ -23,13 +23,32 @@
           
           
         }
+        public function submenu(){
+            $data['user'] = $this->db->get_where('user',
+            ['email' => $this->session->userdata['email']])->row_array();
+            
+            $data['sub_menu'] = $this->Menu_model->getAllSubmenu();
+
+            $data['judul'] =  'Submenu Management';
+            
+            $this->load->view('templates/header', $data);
+                $this->load->view('templates/sidebar', $data);
+                $this->load->view('templates/topbar', $data);
+                $this->load->view('menu/submenu', $data);
+                $this->load->view('templates/footer');
+        }
+
+
         public function add(){
-            
-            // echo $this->input->post('menu');
-            
-            $this->db->insert('user_menu', ['menu' => $this->input->post('menu')]);
-            $this->session->set_flashdata('menu_flash', ' added!');
-            redirect('menu');
+            $this->form_validation->set_rules('menu', 'Menu', 'required|trim|is_unique[user_menu.menu]');
+            if($this->form_validation->run() == false){
+            $this->session->set_flashdata('menu_failed', ' already exist!');
+                redirect('menu');
+            }else{
+                $this->Menu_model->addMenu();
+                $this->session->set_flashdata('menu_added', ' added!');
+                redirect('menu');
+            }
 
         }
         public function delete($id){
@@ -44,8 +63,6 @@
             $this->session->set_flashdata('menu_flash', ' updated!');
             redirect('menu');
         }
-        public function getEdit(){  
-            echo json_encode($this->Menu_model->getMenuById($this->input->post('id_menu')));
-        }
+       
 
     }

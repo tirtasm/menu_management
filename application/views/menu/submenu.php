@@ -14,27 +14,35 @@
     <div class="btn btn-primary mb-3 tombolTambah" data-toggle="modal" data-target="#formModal"
         >Add New Menu</div>
     <div class="row">
-        <div class="col-lg-6">
-            <table class="table table-hover mx-3">
+        <div class="col-lg-12">
+            <table class="table table-hover table-responsive mx-4 ">
                 <thead>
                     <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Menu</th>
-                        <th scope="col">Action</th>
+                        <th>#</th>
+                        <th>Tittle</th>
+                        <th>Menu</th>
+                        <th>URL</th>
+                        <th>Icon</th>
+                        <th>Active</th>
+                        
                     </tr>
                 </thead>
                 <tbody>
                     <?php $i = 1; ?>
-                    <?php foreach ($menu as $m): ?>
-                        <tr>
-                            <th scope="row"><?= $i ?></th>
-                            <th scope="2"><?= $m['menu'] ?></th>
-                            <td>
-                                <a href="<?= base_url('menu/edit/') . $m['id_menu'] ?>"
-                                    class="badge badge-success tampilModalEdit" data-toggle="modal" data-target="#formModal"
-                                    data-id="<?= $m['id_menu'] ?>">Edit</a>
-                                <a href="<?= base_url('menu/delete/') . $m['id_menu'] ?>"
-                                    class="badge badge-danger delete">Delete</a>
+                    <?php foreach ($sub_menu as $sm): ?>
+                        <tr class="">
+                            <th><?= $i ?></th>
+                            <th><?= $sm['title'] ?></th>
+                            <th><?= $sm['menu'] ?></th>
+                            <th><?= $sm['url'] ?></th>
+                            <th><?= $sm['icon'] ?></th>
+                            <th><?= $sm['is_active'] ?></th>
+                            <td class="d-flex align-items-center">
+                                <a href="<?= base_url('menu/edit/') . $sm['id_sub'] ?>"
+                                    class="badge mr-2 badge-success tampilModalEdit" data-toggle="modal" data-target="#formModal"
+                                    data-id="<?= $sm['id_sub'] ?>">Edit</a>
+                                <a href="<?= base_url('menu/delete/') . $sm['id_sub'] ?>"
+                                    class="badge mr-2 badge-danger delete">Delete</a>
                             </td>
                         </tr>
                         <?php $i++ ?>
@@ -60,7 +68,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="<?= base_url('menu/add') ?>" method="post">
+                <form action="<?= base_url('menu/') ?>" method="post">
                     <div class="row justify-content-center">
 
                         <div class="col-lg-10 align-items-center ">
