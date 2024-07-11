@@ -8,7 +8,7 @@ class Menu extends CI_Controller
         parent::__construct();
         $this->load->library('form_validation');
         $this->load->model('Menu_model');
-        // check_login();
+        check_login();
     }
     public function index()
     {

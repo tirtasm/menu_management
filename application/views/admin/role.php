@@ -30,7 +30,7 @@
                             <th scope="row"><?= $i ?></th>
                             <th scope="2"><?= $rl['role'] ?></th>
                             <td>
-                                <a href="<?= base_url('admin/edit/') . $rl['id_role'] ?>"
+                                <a href="<?= base_url('admin/roleaccess/') . $rl['id_role'] ?>"
                                     class="badge badge-warning " 
                                     data-id="<?= $rl['id_role'] ?>">Access</a>
                                 <a href="<?= base_url('admin/edit/') . $rl['id_role'] ?>"
