@@ -1,8 +1,8 @@
 console.log("ber");
 
-const menuAdded = $(".menu-flash").data("menuadded");
-const menuFailed = $(".menu-flash").data("menufailed");
 const menuFlash = $(".menu-flash").data("menuflash");
+const menuFailed = $(".menu-flash").data("menufailed");
+const menuAdded = $(".menu-flash").data("menuadded");
 if (menuFlash) {
 	Swal.fire({
 		title: "Menu",
@@ -11,7 +11,6 @@ if (menuFlash) {
 		timer: 2500,
 	});
 }
-
 if (menuAdded) {
 	Swal.fire({
 		title: "Menu",
@@ -26,8 +25,29 @@ if (menuAdded) {
 		icon: "error",
 		timer: 2500,
 	});
-
 }
+
+const subMenuAdded = $(".menu-flash").data("submenu_added");
+const subMenuFailed = $(".menu-flash").data("submenu_failed");
+if (subMenuAdded) {
+	Swal.fire({
+		title: "Submenu",
+		text: "Successfully" + subMenuAdded,
+		icon: "success",
+		timer: 2500,
+	});
+}else if(subMenuFailed){
+	Swal.fire({
+		title: "Submenu",
+		text: "Submenu" + subMenuFailed,
+		icon: "error",
+		timer: 2500,
+	});
+}
+
+
+
+
 
 $(".delete").on("click", function (e) {
 	e.preventDefault();
@@ -106,30 +126,43 @@ $(document).ready(function () {
 // 	}
 // };
 
+
 $(function () {
 	$(".tombolTambah").on("click", function () {
-		$("#formModalLabel").html("Tambah Data Mahasiswa");
+		$("#formModalLabel").html("Add Menu");
 		$(".modal-footer button[type=submit]").html("Add");
 	});
 	$(".tampilModalEdit").on("click", function () {
 		$("#formModalLabel").html("Edit Menu");
 		$(".modal-footer button[type=submit]").html("Edit");
-		$(".modal-body form").attr("action", "http://localhost/MENCOBA/menu/edit/");
+		$(".modal-body form").attr("action", "http://localhost/MENCOBA/menu/editsubmenu/");
 
 		const id = $(this).data("id"); 
-		// console.log(id);
+		
 
 		$.ajax({
-			url: "http://localhost/MENCOBA/menu/getEdit/",
-			data: { id_menu: id }, 
+			url: "http://localhost/MENCOBA/menu/getEditSubMenu/",
+			data: { id_sub: id }, 
 			method: "post",
 			dataType: "json",
 			success: function (data) {
 				// console.log(data); 
+				
 				if (data) {
-					$("#id_menu").val(data.id_menu); // Sesuaikan dengan id_menu
-					$("#menu").val(data.menu);
-				} else {
+					$("#id_sub").val(data.id_sub); // Sesuaikan dengan id_sub
+					$("#title").val(data.title);
+                    $("#menu_name").val(data.menu_id);
+                    $("#url").val(data.url);
+                    $("#icon").val(data.icon);
+                    $('option[value='+ data.menu_id +']').attr('selected','');
+					if (data.is_active == 1) {
+						$('#active').attr('checked', '');
+						
+					}else{
+						$('#active').removeAttr('checked', '');
+						
+					}
+                } else {
 					console.error("Data is null or undefined");
 				}
 			},
