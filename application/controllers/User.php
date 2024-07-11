@@ -4,6 +4,7 @@
         public function __construct() {
             parent::__construct();
             $this->load->model('User_model');
+            // check_login();
         }
         public function error_404() {
             $this->output->set_status_header('404');

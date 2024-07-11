@@ -45,6 +45,34 @@ if (subMenuAdded) {
 	});
 }
 
+const roleFlash = $(".role-flash").data("roleflash")
+const roleAdd = $(".role-flash").data("roleadded");
+const roleFailed = $(".role-flash").data("rolefailed");
+if (roleFlash) {
+	Swal.fire({
+		title: "Role",
+		text: "Successfully" + roleFlash,
+		icon: "success",
+		timer: 2500,
+	});
+}
+if (roleAdd) {
+	Swal.fire({
+		title: "Role",
+		text: "Successfully" + roleAdd,
+		icon: "success",
+		timer: 2500,
+	});
+}else if(roleFailed){
+	Swal.fire({
+		title: "Role",
+		text: "Role" + roleFailed,
+		icon: "error",
+		timer: 2500,
+	});
+}
+
+
 
 
 
@@ -126,14 +154,48 @@ $(document).ready(function () {
 // 	}
 // };
 
-
+//menu modal
 $(function () {
-	$(".tombolTambah").on("click", function () {
-		$("#formModalLabel").html("Add Menu");
+	$(".btnAdd").on("click", function () {
+		$("#menuModalLabel").html("Add Menu");
 		$(".modal-footer button[type=submit]").html("Add");
 	});
-	$(".tampilModalEdit").on("click", function () {
-		$("#formModalLabel").html("Edit Menu");
+	$(".menuModalEdit").on("click", function () {
+		$("#menuModalLabel").html("Edit Menu");
+		$(".modal-footer button[type=submit]").html("Edit");
+		$(".modal-body form").attr("action", "http://localhost/MENCOBA/menu/editmenu/");
+
+		const id = $(this).data("id"); 
+		
+
+		$.ajax({
+			url: "http://localhost/MENCOBA/menu/getEditMenu/",
+			data: { id_menu: id }, 
+			method: "post",
+			dataType: "json",
+			success: function (data) {
+				// console.log(data); 
+				
+				if (data) {
+					$("#id_menu").val(data.id_menu);
+					$("#menu").val(data.menu)
+                } else {
+					console.error("Data is null or undefined");
+				}
+			},
+		});
+	});
+});
+
+
+//submenu modal
+$(function () {
+	$(".btnEdit").on("click", function () {
+		$("#submenuModalLabel").html("Add Sub Menu");
+		$(".modal-footer button[type=submit]").html("Add");
+	});
+	$(".subMenuModal").on("click", function () {
+		$("#submenuModalLabel").html("Edit Sub Menu");
 		$(".modal-footer button[type=submit]").html("Edit");
 		$(".modal-body form").attr("action", "http://localhost/MENCOBA/menu/editsubmenu/");
 
@@ -169,3 +231,38 @@ $(function () {
 		});
 	});
 });
+
+//role modal
+$(function () {
+	$(".btnAddRole").on("click", function () {
+		$(".roleModalLabel").html("Add Role");
+		$(".modal-footer button[type=submit]").html("Add");
+	});
+	$(".roleModalEdit").on("click", function () {
+		$("#roleModalLabel").html("Edit Role");
+		$(".modal-footer button[type=submit]").html("Edit");
+		$(".modal-body form").attr("action", "http://localhost/MENCOBA/admin/editrole/");
+
+		const id = $(this).data("id"); 
+		
+
+		$.ajax({
+			url: "http://localhost/MENCOBA/admin/geteditrole/",
+			data: { id_role: id }, 
+			method: "post",
+			dataType: "json",
+			success: function (data) {
+				// console.log(data); 
+				
+				if (data) {
+					$("#id_role").val(data.id_role); 
+					$("#role").val(data.role);
+				
+                } else {
+					console.error("Data is null or undefined");
+				}
+			},
+		});
+	});
+});
+

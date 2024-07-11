@@ -1,4 +1,4 @@
-
+<body class="bg-gradient-primary">
         <div class="container min-vh-100 align-content-center">
             <div class="row justify-content-center">
 

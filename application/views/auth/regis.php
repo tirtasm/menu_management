@@ -1,3 +1,4 @@
+<body class="bg-gradient-primary">
 <div class="container min-vh-100 align-content-center ">
 
         <div class="card o-hidden border-0 shadow-lg col-lg-5 mx-auto">

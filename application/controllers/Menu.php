@@ -8,6 +8,7 @@ class Menu extends CI_Controller
         parent::__construct();
         $this->load->library('form_validation');
         $this->load->model('Menu_model');
+        // check_login();
     }
     public function index()
     {
@@ -48,13 +49,13 @@ class Menu extends CI_Controller
         $this->session->set_flashdata('menu_flash', ' deleted!');
         redirect('menu');
     }
-    public function edit()
+    public function editMenu()
     {
         $this->Menu_model->updateMenu();
         $this->session->set_flashdata('menu_flash', ' updated!');
         redirect('menu');
     }
-    public function getEdit(){  
+    public function getEditMenu(){  
         echo json_encode($this->Menu_model->getMenuById($this->input->post('id_menu')));
         
     }
@@ -104,10 +105,20 @@ class Menu extends CI_Controller
         redirect('menu/submenu');
     }
     public function editsubmenu(){
-        $this->Menu_model->updateSubMenu();
+        $this->form_validation->set_rules('title', 'Title', 'required|trim');
+        $this->form_validation->set_rules('menu_name', 'Menu Name', 'required|trim');
+        $this->form_validation->set_rules('url', 'URL', 'required|trim|is_unique[user_sub_menu.url]', [
+            'is_unique' => 'This URL has already registered!'
+        ]);
+        if ($this->form_validation->run() == false) {
+            $this->session->set_flashdata('submenu_failed', ' failed!');
+            redirect('menu/submenu');
+        }else{
+            $this->Menu_model->updateSubMenu();
+            $this->session->set_flashdata('menu_flash', ' updated!');
+            redirect('menu/submenu');
+        }
 
-        $this->session->set_flashdata('menu_flash', ' updated!');
-        redirect('menu/submenu');    
     }
 
 

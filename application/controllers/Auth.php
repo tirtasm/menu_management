@@ -5,6 +5,8 @@
             parent::__construct();
             $this->load->library('form_validation');
             $this->load->model('Auth_model');
+            
+            
         }
         public function login() {
             $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email');
@@ -64,6 +66,12 @@
             
         }
 
+        public function blocked(){
+            $data['judul'] =  'Access Forbidden';
+            $this->load->view('templates/auth_header', $data);
+            $this->load->view('auth/denied');
+            $this->load->view('templates/auth_footer');
+        }
         public function logout(){
             $this->session->unset_userdata('email');
             $this->session->unset_userdata('role_id');
