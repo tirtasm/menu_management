@@ -15,14 +15,15 @@
     
     <!-- Query Menu -->
     <?php
-    $role_id = $this->session->userdata('role_id');
-    $query = "SELECT um.id_menu, menu
+    $role_id = $this->session->userdata('id_role');
+    $query = "SELECT um.id_menu, um.menu
                 FROM user_menu AS um JOIN user_access_menu AS uam
                 ON um.id_menu = uam.id_menu
                 WHERE uam.role_id = $role_id
                 ORDER BY uam.id_menu ASC
                 ";
     $menu = $this->db->query($query)->result_array();
+    
     ?>
     <?php foreach ($menu as $m): ?>
         <div class="sidebar-heading">

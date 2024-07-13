@@ -6,9 +6,11 @@
             $this->load->library('form_validation');
             $this->load->model('Auth_model');
             
-            
         }
         public function login() {
+            if($this->session->userdata('email')){
+                redirect('user/index');
+            }
             $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email');
             $this->form_validation->set_rules('password', 'Password', 'required|trim');
 
@@ -36,16 +38,18 @@
                     if(password_verify($password, $user['password'])){
                         $data = [
                             'email' => $user['email'],
-                            'role_id' => $user['role_id']
+                            'id_role' => $user['id_role']
                         ];
                         $this->session->set_userdata($data);
                         if($user['role_id'] == 1){
                             // redirect('admin');
-                        $this->session->set_flashdata('login_success', 'ok');
+                            
                             redirect('admin/index');
+                        $this->session->set_flashdata('login_success', 'ok');
+                        
                         }else{
-                            $this->session->set_flashdata('login_success', 'ok');
                             redirect('user/index');
+                            $this->session->set_flashdata('login_success', 'ok');
                             // redirect('user/index');
                             // $this->session->set_flashdata('login_error', 'Wrong password!');  sdcvasd    
                         }
@@ -86,7 +90,9 @@
             $this->load->view('templates/auth_footer');
         }   
         public function registration() {
-
+            if($this->session->userdata('email')){
+                redirect('user/index');
+            }
             $this->form_validation->set_rules('fullname', 'Fullname', 'required|trim');
             $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email|is_unique[user.email]', [
                 'is_unique' => 'This email has already registered!'
@@ -114,7 +120,7 @@
                     'email' => htmlspecialchars($this->input->post('email', true)),
                     'image' => 'default.jpg',
                     'password' => password_hash($this->input->post('password1'), PASSWORD_DEFAULT),
-                    'role_id' => 2,
+                    'id_role' => 2,
                     'is_active' => 1,
                     'date_create' => time()
                 ];

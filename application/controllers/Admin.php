@@ -21,16 +21,17 @@ class Admin extends CI_Controller
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
         $this->load->view('templates/topbar', $data);
-        $this->load->view('user/index', $data);
+        $this->load->view('admin/index', $data);
         $this->load->view('templates/footer');
     }
     public function role()
     {
+        
+
         $data['judul'] = 'Role';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata['email']])->row_array();
         $data['role'] = $this->db->get('user_role')->result_array();
-        
-
+    
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
         $this->load->view('templates/topbar', $data);
@@ -42,6 +43,8 @@ class Admin extends CI_Controller
         $data['judul'] = 'Role Access';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata['email']])->row_array();
         $data['role'] = $this->db->get_where('user_role', ['id_role' => $role_id])->row_array();
+        $this->db->where('id_menu !=', 1);
+
         $data['menu'] = $this->db->get('user_menu')->result_array();
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
@@ -90,6 +93,24 @@ class Admin extends CI_Controller
             redirect('admin/role');
         }
 
+    }
+    public function changeaccess(){
+        $data = [
+			'role_id' => $this->input->post('roleId'),
+            'id_menu' => $this->input->post('menuId')
+		];
+
+		$result = $this->db->get_where('user_access_menu', $data);
+
+
+        if ($result->num_rows() < 1) {
+            
+            $this->session->set_flashdata('changeaccess', '<div class="alert alert-success" role="alert">Changed Access</div>');
+            $this->db->insert('user_access_menu', $data);
+        } else {
+            $this->session->set_flashdata('changeaccess', '<div class="alert alert-danger" role="alert">Delete Access</div>');
+            $this->db->delete('user_access_menu', $data);
+        }
     }
 }
 ?>

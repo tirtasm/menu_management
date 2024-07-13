@@ -18,7 +18,7 @@ if (menuAdded) {
 		icon: "success",
 		timer: 2500,
 	});
-}else if(menuFailed){
+} else if (menuFailed) {
 	Swal.fire({
 		title: "Menu",
 		text: "Menu" + menuFailed,
@@ -36,7 +36,7 @@ if (subMenuAdded) {
 		icon: "success",
 		timer: 2500,
 	});
-}else if(subMenuFailed){
+} else if (subMenuFailed) {
 	Swal.fire({
 		title: "Submenu",
 		text: "Submenu" + subMenuFailed,
@@ -45,7 +45,7 @@ if (subMenuAdded) {
 	});
 }
 
-const roleFlash = $(".role-flash").data("roleflash")
+const roleFlash = $(".role-flash").data("roleflash");
 const roleAdd = $(".role-flash").data("roleadded");
 const roleFailed = $(".role-flash").data("rolefailed");
 if (roleFlash) {
@@ -63,7 +63,7 @@ if (roleAdd) {
 		icon: "success",
 		timer: 2500,
 	});
-}else if(roleFailed){
+} else if (roleFailed) {
 	Swal.fire({
 		title: "Role",
 		text: "Role" + roleFailed,
@@ -72,11 +72,30 @@ if (roleAdd) {
 	});
 }
 
+// input check
+
+$(document).ready(function(){
+	$('.form-check-input').on('click', function(){
+		const menuId = $(this).data('menu');
+		const roleId = $(this).data('role');
+		const url = $(this).data('url');
+		$.ajax({
+			url: url + 'admin/changeaccess',
+			type: 'post',
+			data: {
+				menuId: menuId,
+				roleId: roleId
+			},
+			success: function(){
+				document.location.href = url + 'admin/roleaccess/' + roleId;
+			}
+		});
+	});
+});
 
 
 
-
-
+//delete
 $(".delete").on("click", function (e) {
 	e.preventDefault();
 	const href = $(this).attr("href");
@@ -129,6 +148,18 @@ $(document).ready(function () {
 	}
 });
 
+//image
+
+    $('.custom-file-input').on('change', function() {
+      let fileName = $(this).val().split('\\').pop();
+      $(this).next('.custom-file-label').addClass("selected").html(fileName);
+      
+    });
+
+
+
+
+
 // addMenu = () => {
 // 	var menuInput = document.getElementById("menu");
 // 	var menuError = document.getElementById("menu-error");
@@ -163,30 +194,31 @@ $(function () {
 	$(".menuModalEdit").on("click", function () {
 		$("#menuModalLabel").html("Edit Menu");
 		$(".modal-footer button[type=submit]").html("Edit");
-		$(".modal-body form").attr("action", "http://localhost/MENCOBA/menu/editmenu/");
+		$(".modal-body form").attr(
+			"action",
+			"http://localhost/MENCOBA/menu/editmenu/"
+		);
 
-		const id = $(this).data("id"); 
-		
+		const id = $(this).data("id");
 
 		$.ajax({
 			url: "http://localhost/MENCOBA/menu/getEditMenu/",
-			data: { id_menu: id }, 
+			data: { id_menu: id },
 			method: "post",
 			dataType: "json",
 			success: function (data) {
-				// console.log(data); 
-				
+				// console.log(data);
+
 				if (data) {
 					$("#id_menu").val(data.id_menu);
-					$("#menu").val(data.menu)
-                } else {
+					$("#menu").val(data.menu);
+				} else {
 					console.error("Data is null or undefined");
 				}
 			},
 		});
 	});
 });
-
 
 //submenu modal
 $(function () {
@@ -197,34 +229,34 @@ $(function () {
 	$(".subMenuModal").on("click", function () {
 		$("#submenuModalLabel").html("Edit Sub Menu");
 		$(".modal-footer button[type=submit]").html("Edit");
-		$(".modal-body form").attr("action", "http://localhost/MENCOBA/menu/editsubmenu/");
+		$(".modal-body form").attr(
+			"action",
+			"http://localhost/MENCOBA/menu/editsubmenu/"
+		);
 
-		const id = $(this).data("id"); 
-		
+		const id = $(this).data("id");
 
 		$.ajax({
 			url: "http://localhost/MENCOBA/menu/getEditSubMenu/",
-			data: { id_sub: id }, 
+			data: { id_sub: id },
 			method: "post",
 			dataType: "json",
 			success: function (data) {
-				// console.log(data); 
-				
+				// console.log(data);
+
 				if (data) {
 					$("#id_sub").val(data.id_sub); // Sesuaikan dengan id_sub
 					$("#title").val(data.title);
-                    $("#menu_name").val(data.menu_id);
-                    $("#url").val(data.url);
-                    $("#icon").val(data.icon);
-                    $('option[value='+ data.menu_id +']').attr('selected','');
+					$("#menu_name").val(data.menu_id);
+					$("#url").val(data.url);
+					$("#icon").val(data.icon);
+					$("option[value=" + data.menu_id + "]").attr("selected", "");
 					if (data.is_active == 1) {
-						$('#active').attr('checked', '');
-						
-					}else{
-						$('#active').removeAttr('checked', '');
-						
+						$("#active").attr("checked", "");
+					} else {
+						$("#active").removeAttr("checked", "");
 					}
-                } else {
+				} else {
 					console.error("Data is null or undefined");
 				}
 			},
@@ -241,28 +273,28 @@ $(function () {
 	$(".roleModalEdit").on("click", function () {
 		$("#roleModalLabel").html("Edit Role");
 		$(".modal-footer button[type=submit]").html("Edit");
-		$(".modal-body form").attr("action", "http://localhost/MENCOBA/admin/editrole/");
+		$(".modal-body form").attr(
+			"action",
+			"http://localhost/MENCOBA/admin/editrole/"
+		);
 
-		const id = $(this).data("id"); 
-		
+		const id = $(this).data("id");
 
 		$.ajax({
 			url: "http://localhost/MENCOBA/admin/geteditrole/",
-			data: { id_role: id }, 
+			data: { id_role: id },
 			method: "post",
 			dataType: "json",
 			success: function (data) {
-				// console.log(data); 
-				
+				// console.log(data);
+
 				if (data) {
-					$("#id_role").val(data.id_role); 
+					$("#id_role").val(data.id_role);
 					$("#role").val(data.role);
-				
-                } else {
+				} else {
 					console.error("Data is null or undefined");
 				}
 			},
 		});
 	});
 });
-
