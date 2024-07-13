@@ -5,12 +5,9 @@
 
   <!-- Page Heading -->
   <h1 class="h3 mb-4 text-gray-800"><?= $judul ?></h1>
-  <div class="row">
-    <div class="col-lg-5">
-      <?=$this->session->flashdata('message');?>
-
-    </div>
-  </div>
+  <div id="flashdata" data-login-success="<?= $this->session->flashdata('login_success'); ?>" data-login-error="<?= $this->session->flashdata('login_error'); ?>"></div>
+  
+  
   <div class="card mb-3" style="max-width: 540px">
     <div class="row g-0">
       <div class="col-lg-4">

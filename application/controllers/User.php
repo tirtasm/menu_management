@@ -4,6 +4,7 @@
         public function __construct() {
             parent::__construct();
             $this->load->model('User_model');
+            $this->load->model('Auth_model');
             $this->load->library('form_validation');
             check_login();
         }
