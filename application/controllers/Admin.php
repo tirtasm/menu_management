@@ -8,15 +8,12 @@ class Admin extends CI_Controller
         parent::__construct();
         $this->load->library('form_validation');
         $this->load->model('Admin_model');
+        $this->load->model('Menu_model');
         check_login();
     }
     public function index()
     {
-        
-        $data['user'] = $this->db->get_where('user',
-        ['email' => $this->session->userdata['email']])->row_array();
-
-
+        $data['user'] = $this->Admin_model->getUser();
         $data['judul'] = 'Dashboard';
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
@@ -29,8 +26,8 @@ class Admin extends CI_Controller
         
 
         $data['judul'] = 'Role';
-        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata['email']])->row_array();
-        $data['role'] = $this->db->get('user_role')->result_array();
+        $data['user'] = $this->Admin_model->getUser();
+        $data['role'] = $this->Admin_model->getRole();
     
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
@@ -41,11 +38,11 @@ class Admin extends CI_Controller
     public function roleaccess($role_id)
     {
         $data['judul'] = 'Role Access';
-        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata['email']])->row_array();
-        $data['role'] = $this->db->get_where('user_role', ['id_role' => $role_id])->row_array();
+        $data['user'] = $this->Admin_model->getUser();
+        $data['role'] = $this->Admin_model->getRoleById($role_id);
         $this->db->where('id_menu !=', 1);
 
-        $data['menu'] = $this->db->get('user_menu')->result_array();
+        $data['menu'] = $this->Menu_model->getMenu();
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
         $this->load->view('templates/topbar', $data);
@@ -112,5 +109,6 @@ class Admin extends CI_Controller
             $this->db->delete('user_access_menu', $data);
         }
     }
+    
 }
 ?>

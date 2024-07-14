@@ -12,19 +12,22 @@ class Menu_model extends CI_Model
 
     public function getMenuById($id)
     {
-        return$this->db->get_where('user_menu', ['id_menu' => $id])->row_array();
+        return $this->db->get_where('user_menu', ['id_menu' => $id])->row_array();
     }
-    
+    public function getMenu(){
+        
+        return $this->db->get('user_menu')->result_array();
+    }
 public function addMenu(){
         $data = [
-            'menu' => $this->input->post('menu')
+            'menu' => htmlspecialchars($this->input->post('menu'))
         ];
         $this->db->insert('user_menu', $data);    
 }
     public function updateMenu()
     {
         $data = [
-            'menu' => $this->input->post('menu')
+            'menu' => htmlspecialchars($this->input->post('menu'))
         ];
         $this->db->where('id_menu', $this->input->post('id_menu'));
         $this->db->update('user_menu', $data);
@@ -46,15 +49,15 @@ public function addMenu(){
     }
     public function addSubMenu(){
         $is_active = 1;
-        $is_active = $this->input->post('active');
+        $is_active = htmlspecialchars($this->input->post('active'));
         if($is_active == null){
             $is_active = 0;
         }
         $data = [
-            'title' => $this->input->post('title'),
-            'menu_id' => $this->input->post('menu_name'),
-            'url' => $this->input->post('url'),
-            'icon' => $this->input->post('icon'),
+            'title' => htmlspecialchars($this->input->post('title')),
+            'menu_id' => htmlspecialchars($this->input->post('menu_name')),
+            'url' => htmlspecialchars($this->input->post('url')),
+            'icon' => htmlspecialchars($this->input->post('icon')),
             'is_active' => $is_active
         ];
         $this->db->insert('user_sub_menu', $data);
@@ -65,11 +68,11 @@ public function addMenu(){
     }
     public function updateSubMenu(){
         $data = [
-            'title' => $this->input->post('title'),
-            'menu_id' => $this->input->post('menu_name'),
-            'url' => $this->input->post('url'),
-            'icon' => $this->input->post('icon'),
-            'is_active' => $this->input->post('active')
+            'title' => htmlspecialchars($this->input->post('title')),
+            'menu_id' => htmlspecialchars($this->input->post('menu_name')),
+            'url' => htmlspecialchars($this->input->post('url')),
+            'icon' => htmlspecialchars($this->input->post('icon')),
+            'is_active' => htmlspecialchars($this->input->post('active'))
         ];
         $this->db->where('id_sub', $this->input->post('id_sub'));
         $this->db->update('user_sub_menu', $data);

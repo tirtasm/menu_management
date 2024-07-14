@@ -8,6 +8,7 @@ class Menu extends CI_Controller
         parent::__construct();
         $this->load->library('form_validation');
         $this->load->model('Menu_model');
+        $this->load->model('User_model');
         check_login();
     }
     public function index()
@@ -17,7 +18,7 @@ class Menu extends CI_Controller
             'user',
             ['email' => $this->session->userdata['email']]
         )->row_array();
-        $data['menu'] = $this->db->get('user_menu')->result_array();
+        $data['menu'] = $this->Menu_model->getMenu();
 
         $data['judul'] = 'Menu Management';
 
@@ -65,13 +66,10 @@ class Menu extends CI_Controller
     }
     public function submenu()
     {
-        $data['user'] = $this->db->get_where(
-            'user',
-            ['email' => $this->session->userdata['email']]
-        )->row_array();
+        $data['user'] = $this->User_model->getUser();
 
         $data['sub_menu'] = $this->Menu_model->getAllSubmenu();
-        $data['menu'] = $this->db->get('user_menu')->result_array();
+        $data['menu'] = $this->Menu_model->getMenu();
         $data['judul'] = 'Submenu Management';
 
         $this->load->view('templates/header', $data);
@@ -121,21 +119,4 @@ class Menu extends CI_Controller
 
     }
 
-
-
-    //user management
-    public function usermanagement()
-    {
-        $data['user'] = $this->db->get_where(
-            'user',
-            ['email' => $this->session->userdata['email']]
-        )->row_array();
-        $data['judul'] = 'User Management';
-
-        // $this->load->view('templates/header', $data);
-        // $this->load->view('templates/sidebar', $data);
-        // $this->load->view('templates/topbar', $data);
-        $this->load->view('menu/usermanagement', $data);
-        // $this->load->view('templates/footer');
-    }
 }
